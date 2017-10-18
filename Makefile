@@ -6,13 +6,13 @@
 #    By: eserebry <eserebry@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/02 00:51:37 by eserebry          #+#    #+#              #
-#    Updated: 2017/10/17 01:26:27 by eserebry         ###   ########.fr        #
+#    Updated: 2017/10/18 04:26:49 by eserebry         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = wolf3d
 
-FLAGS = -Wall -Wextra -Werror -Ofast
+FLAGS = -Wall -Wextra -Werror -Ofast -g
 CC = gcc
 
 CMP = -L minilibx -lmlx -framework OpenGL -framework AppKit
@@ -22,7 +22,8 @@ SRC = 	main.c\
 		movement.c\
 		raycasting.c\
 		init.c\
-		move.c
+		move.c\
+		menu.c
 
 OBJ = $(SRCS:.c=.o)
  
