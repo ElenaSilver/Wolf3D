@@ -6,7 +6,7 @@
 /*   By: eserebry <eserebry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 17:52:00 by eserebry          #+#    #+#             */
-/*   Updated: 2017/10/17 05:25:28 by eserebry         ###   ########.fr       */
+/*   Updated: 2017/10/18 04:45:38 by eserebry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,16 @@ typedef struct		s_dxy
 	double			y;
 }					t_dxy;
 
+typedef struct	s_tex
+{
+	void		*img;
+	char		*data;
+	int			bpp;
+	int			sizeline;
+	int			endian;
+}
+				t_tex;
+
 typedef struct		s_player
 {
 	struct s_dxy	pos;
@@ -71,10 +81,11 @@ typedef struct		s_ray
 {
 	struct s_dxy	pos;
 	struct s_dxy	dir;
-	struct s_ixy	map;
 	struct s_dxy	side;
 	struct s_dxy	delta;
 	struct s_ixy	step;
+	struct s_ixy	map;
+	struct s_ixy	text;
 	double			dist;
 	double			cam;
 	int				hit;
@@ -83,14 +94,17 @@ typedef struct		s_ray
 
 typedef struct		s_env
 {
+	t_tex			text[3];
 	void			*mlx;
 	void			*win;
 	void			*img;
+	void			*img_ptr;
 	int				**map;
 	char			*data;
 	int				bpp;
 	int				sline;
 	int				endian;
+	int				id;
 	clock_t			last_frame;
 	clock_t			next_frame;
 	struct s_player	player;
@@ -99,6 +113,11 @@ typedef struct		s_env
 	int				width;
 	int				map_width;
 	int				map_height;
+	int				texture;
+	int				color;
+	int				lineheight;
+	int				side;
+	int				help;
 	unsigned int	color_1;
 	unsigned int	color_2;
 	unsigned int	color_3;
@@ -107,6 +126,8 @@ typedef struct		s_env
 	unsigned int	color_ground;
 	int				start_x;
 	int				start_y;
+	double			wall_x;
+	double			wall_dist;
 }					t_env;
 
 int					loop_hook(t_env *e);
@@ -123,5 +144,8 @@ void				move_down(t_env *e);
 void				move_jump(t_env *e);
 void				error_map(void);
 void				music(int key);
+void				put_pxl_to_image(t_env *env, int x, int y, int color);
+void				load_textures(t_env *env);
+void				display_usage(t_env *env);
 
 #endif

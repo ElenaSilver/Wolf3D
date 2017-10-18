@@ -6,7 +6,7 @@
 /*   By: eserebry <eserebry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 17:51:24 by eserebry          #+#    #+#             */
-/*   Updated: 2017/10/17 03:30:58 by eserebry         ###   ########.fr       */
+/*   Updated: 2017/10/18 04:43:05 by eserebry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,10 @@ int				main(int argc, char **argv)
 			&(env->endian));
 	env->last_frame = clock();
 	env->next_frame = 0;
+	env->help = 1;
 	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Wolf3d eserebry");
 	mlx_do_key_autorepeatoff(env->mlx);
+	mlx_expose_hook(env->win, loop_hook, env);
 	mlx_loop_hook(env->mlx, loop_hook, env);
 	mlx_hook(env->win, 2, 0, ft_key, env);
 	mlx_hook(env->win, 17, 0, ft_exit, env);

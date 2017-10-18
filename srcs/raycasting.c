@@ -6,29 +6,46 @@
 /*   By: eserebry <eserebry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 18:15:28 by eserebry          #+#    #+#             */
-/*   Updated: 2017/10/17 03:30:21 by eserebry         ###   ########.fr       */
+/*   Updated: 2017/10/18 04:41:53 by eserebry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-static void		ray_draw(t_env *env, int x)
-{
-	int		height;
-	int		start;
-	int		end;
+/*
+** calculate step and what side was hit
+*/ 
 
-	height = (int)(env->height / env->ray.dist);
-	start = -height / 2 + env->height / 2;
-	if (start < 0)
-		start = 0;
-	end = height / 2 + env->height / 2;
-	if (end >= env->height)
-		end = env->height - 1;
-	draw_line(env, x, start, end);
+static void		calc_step_side(t_env *e)
+{
+	if (e->ray.dir.x < 0)
+	{
+		e->ray.step.x = -1;
+		e->ray.side.x = (e->ray.pos.x - (int)e->ray.pos.x) * e->ray.delta.x;
+	}
+	else
+	{
+		e->ray.step.x = 1;
+		e->ray.side.x = ((int)e->ray.pos.x + 1 - e->ray.pos.x) * e->ray.delta.x;
+	}
+	if (e->ray.dir.y < 0)
+	{
+		e->ray.step.y = -1;
+		e->ray.side.y = (e->ray.pos.y - (int)e->ray.pos.y) * e->ray.delta.y;
+	}
+	else
+	{
+		e->ray.step.y = 1;
+		e->ray.side.y = ((int)e->ray.pos.y + 1 - e->ray.pos.y) * e->ray.delta.y;
+	}
 }
 
-static void		ray_cal_dist(t_env *e)
+/*
+** jump to the next map square either x or y direction, by performing DDA (digital
+** differential analyzer) algorithm, calculating distance of perpendicular ray
+*/
+
+static void		calc_dist(t_env *e)
 {
 	while (e->ray.hit == 0)
 	{
@@ -57,28 +74,25 @@ static void		ray_cal_dist(t_env *e)
 	}
 }
 
-static void		ray_cal_step_side(t_env *e)
+/*
+** calculating height on line to draw on screen and then calculating lowest and
+** highest pixel to fill in curent stripe
+*/
+
+ static void		calc_draw_line(t_env *env, int x)
 {
-	if (e->ray.dir.x < 0)
-	{
-		e->ray.step.x = -1;
-		e->ray.side.x = (e->ray.pos.x - (int)e->ray.pos.x) * e->ray.delta.x;
-	}
-	else
-	{
-		e->ray.step.x = 1;
-		e->ray.side.x = ((int)e->ray.pos.x + 1 - e->ray.pos.x) * e->ray.delta.x;
-	}
-	if (e->ray.dir.y < 0)
-	{
-		e->ray.step.y = -1;
-		e->ray.side.y = (e->ray.pos.y - (int)e->ray.pos.y) * e->ray.delta.y;
-	}
-	else
-	{
-		e->ray.step.y = 1;
-		e->ray.side.y = ((int)e->ray.pos.y + 1 - e->ray.pos.y) * e->ray.delta.y;
-	}
+	int		height;
+	int		start;
+	int		end;
+
+	height = (int)(env->height / env->ray.dist);
+	start = -height / 2 + env->height / 2;
+	if (start < 0)
+		start = 0;
+	end = height / 2 + env->height / 2;
+	if (end >= env->height)
+		end = env->height - 1;
+	draw_line(env, x, start, end);
 }
 
 static void		ray_init(t_env *env, int x)
@@ -107,8 +121,8 @@ void			raycasting(t_env *env)
 	while (++x < env->width)
 	{
 		ray_init(env, x);
-		ray_cal_step_side(env);
-		ray_cal_dist(env);
-		ray_draw(env, x);
+		calc_step_side(env);
+		calc_dist(env);
+		calc_draw_line(env, x);
 	}
 }

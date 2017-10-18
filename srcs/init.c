@@ -6,7 +6,7 @@
 /*   By: eserebry <eserebry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 17:51:24 by eserebry          #+#    #+#             */
-/*   Updated: 2017/10/17 06:57:37 by eserebry         ###   ########.fr       */
+/*   Updated: 2017/10/18 04:30:42 by eserebry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ t_env			*init_env(void)
 	env->player.move_left = 0;
 	env->player.move_jump = 0;
 	env->player.is_jump = 0;
+	env->ray.text.x = 0;
+	env->ray.text.y = 0;
 	init_color(env);
 	/*load_textures(env);*/
 	return (env);

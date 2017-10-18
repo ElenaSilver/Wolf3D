@@ -6,7 +6,7 @@
 /*   By: eserebry <eserebry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 17:51:24 by eserebry          #+#    #+#             */
-/*   Updated: 2017/10/17 05:34:01 by eserebry         ###   ########.fr       */
+/*   Updated: 2017/10/18 04:44:42 by eserebry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,20 @@ int		ft_key(int key, t_env *env)
 	if (key == KEY_ESC)
 	{
 		ft_exit(env);
+	}
+		else if (key == 17)
+	{
+		if (env->texture == 0)
+			env->texture = 1;
+		else
+			env->texture = 0;
+	}
+	if (key == 4)
+	{
+		if (env->help == 0)
+			env->help = 1;
+		else
+			env->help = 0;
 	}
 	return (0);
 }
@@ -76,6 +90,8 @@ int		loop_hook(t_env *env)
 		move_left(env);
 	if (env->player.move_jump == 1)
 		move_jump(env);
+	if (env->help == 1)
+		display_usage(env);
 	raycasting(env);
 	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 	return (0);
