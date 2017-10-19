@@ -6,7 +6,7 @@
 /*   By: eserebry <eserebry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 17:52:26 by eserebry          #+#    #+#             */
-/*   Updated: 2017/10/17 03:32:21 by eserebry         ###   ########.fr       */
+/*   Updated: 2017/10/19 00:27:55 by eserebry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ static void		read_pos(int fd, t_env *e)
 	int		i;
 
 	i = -1;
+	/*ft_strnew(1);*/
+	free(ft_strnew(0));
+	free(ft_strnew(1));
 	if (ft_get_next_line(fd, &line) < 1)
 		error_map();
 	line_split = ft_strsplit(line, ' ');
@@ -34,9 +37,14 @@ static void		read_pos(int fd, t_env *e)
 			e->player.pos.y < 0 || e->player.pos.x >= e->map_width ||
 			e->player.pos.y >= e->map_width)
 		error_map();
+	i = -1;
+	while (line_split[++i] != NULL)
+		free(line_split[i]);
+	free(line_split[i]);
+	free(line_split);
 }
 
-static void		read_line(char *line, int y, int **map, t_env *e)
+static int		read_line(char *line, int y, int **map, t_env *e)
 {
 	int		x;
 	char	**line_split;
@@ -45,7 +53,8 @@ static void		read_line(char *line, int y, int **map, t_env *e)
 	if (y >= e->map_height)
 		error_map();
 	line_split = ft_strsplit(line, ' ');
-	map[y] = (int *)malloc(sizeof(int *) * e->width);
+	if (!(map[y] = (int *)malloc(sizeof(int *) * e->width)))
+		return (0);
 	while (line_split[++x] != '\0')
 	{
 		if (!(line_split[x][0] >= '0' && line_split[x][0] <= '9'
@@ -58,6 +67,12 @@ static void		read_line(char *line, int y, int **map, t_env *e)
 	}
 	if (x != e->map_width)
 		error_map();
+	x = -1;
+	while (line_split[++x] != NULL)
+		free(line_split[x]);
+	free(line_split[x]);
+	free(line_split);
+	return (0);
 }
 
 static int		read_file(int fd, t_env *env)
@@ -69,12 +84,14 @@ static int		read_file(int fd, t_env *env)
 	y = -1;
 	read_pos(fd, env);
 	map = (int **)malloc(sizeof(int **) * env->map_height);
+	line = ft_strnew(1);
 	while (ft_get_next_line(fd, &line) == 1)
 		read_line(line, ++y, map, env);
 	if (map[(int)env->player.pos.x][(int)env->player.pos.y] != 0)
 		error_map();
 	env->map = map;
 	return (1);
+	free(map);
 }
 
 void			error_map(void)

@@ -6,7 +6,7 @@
 /*   By: eserebry <eserebry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 17:52:00 by eserebry          #+#    #+#             */
-/*   Updated: 2017/10/18 04:45:38 by eserebry         ###   ########.fr       */
+/*   Updated: 2017/10/18 23:36:15 by eserebry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # define FOUR 86
 # define FIVE 87
 # define SIX 88
+# define H 4
+# define M 46
 
 # include "../minilibx/mlx.h"
 # include <fcntl.h>
@@ -50,16 +52,6 @@ typedef struct		s_dxy
 	double			x;
 	double			y;
 }					t_dxy;
-
-typedef struct	s_tex
-{
-	void		*img;
-	char		*data;
-	int			bpp;
-	int			sizeline;
-	int			endian;
-}
-				t_tex;
 
 typedef struct		s_player
 {
@@ -85,7 +77,6 @@ typedef struct		s_ray
 	struct s_dxy	delta;
 	struct s_ixy	step;
 	struct s_ixy	map;
-	struct s_ixy	text;
 	double			dist;
 	double			cam;
 	int				hit;
@@ -94,7 +85,6 @@ typedef struct		s_ray
 
 typedef struct		s_env
 {
-	t_tex			text[3];
 	void			*mlx;
 	void			*win;
 	void			*img;
@@ -139,13 +129,14 @@ void				draw_line(t_env *e, int x, int start, int end);
 void				raycasting(t_env *e);
 void				move_left(t_env *e);
 void				move_right(t_env *e);
-void				move_up(t_env *e);
-void				move_down(t_env *e);
+void				move_forward(t_env *e);
+void				move_backwards(t_env *e);
 void				move_jump(t_env *e);
 void				error_map(void);
 void				music(int key);
 void				put_pxl_to_image(t_env *env, int x, int y, int color);
 void				load_textures(t_env *env);
 void				display_usage(t_env *env);
+int					free_stuff(t_env *env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: eserebry <eserebry@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 18:15:28 by eserebry          #+#    #+#             */
-/*   Updated: 2017/10/18 04:41:53 by eserebry         ###   ########.fr       */
+/*   Updated: 2017/10/18 17:25:55 by eserebry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 ** calculate step and what side was hit
-*/ 
+*/
 
 static void		calc_step_side(t_env *e)
 {
@@ -41,8 +41,9 @@ static void		calc_step_side(t_env *e)
 }
 
 /*
-** jump to the next map square either x or y direction, by performing DDA (digital
-** differential analyzer) algorithm, calculating distance of perpendicular ray
+** jump to the next map square either x or y direction, by performing DDA
+** (digital differential analyzer) algorithm, calculating distance of
+** perpendicular ray
 */
 
 static void		calc_dist(t_env *e)
@@ -79,7 +80,7 @@ static void		calc_dist(t_env *e)
 ** highest pixel to fill in curent stripe
 */
 
- static void		calc_draw_line(t_env *env, int x)
+static void		calc_draw_line(t_env *env, int x)
 {
 	int		height;
 	int		start;
