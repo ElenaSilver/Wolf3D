@@ -103,10 +103,6 @@ typedef struct		s_env
 	int				width;
 	int				map_width;
 	int				map_height;
-	int				texture;
-	int				color;
-	int				lineheight;
-	int				side;
 	int				help;
 	unsigned int	color_1;
 	unsigned int	color_2;
@@ -114,29 +110,44 @@ typedef struct		s_env
 	unsigned int	color_4;
 	unsigned int	color_sky;
 	unsigned int	color_ground;
-	int				start_x;
-	int				start_y;
-	double			wall_x;
-	double			wall_dist;
 }					t_env;
 
-int					loop_hook(t_env *e);
-int					open_file(t_env *e, char *f);
-int					ft_key(int key, t_env *env);
-int					ft_exit(t_env *e);
+/*
+** init.c
+*/
 t_env				*init_env(void);
+/*
+** key_management.c
+*/
+int					ft_key(int key, t_env *env);
+void				music(int key);
+int					ft_exit(t_env *e);
+int					loop_hook(t_env *e);
+/*
+** main.c
+*/
 void				draw_line(t_env *e, int x, int start, int end);
-void				raycasting(t_env *e);
+/*
+** map_init.c
+*/
+int					open_file(t_env *e, char *f);
+/*
+** menu.c
+*/
+void				display_usage(t_env *env);
+int					free_stuff(t_env *env);
+void				error_map(void);
+/*
+** movement.c
+*/
 void				move_left(t_env *e);
 void				move_right(t_env *e);
 void				move_forward(t_env *e);
 void				move_backwards(t_env *e);
 void				move_jump(t_env *e);
-void				error_map(void);
-void				music(int key);
-void				put_pxl_to_image(t_env *env, int x, int y, int color);
-void				load_textures(t_env *env);
-void				display_usage(t_env *env);
-int					free_stuff(t_env *env);
+/*
+** raycasting.c
+*/
+void				raycasting(t_env *e);
 
 #endif

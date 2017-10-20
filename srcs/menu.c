@@ -40,3 +40,9 @@ int			free_stuff(t_env *env)
 	system("killall afplay");
 	return (1);
 }
+
+void		error_map(void)
+{
+	ft_putendl("wrong map");
+	exit(1);
+}
